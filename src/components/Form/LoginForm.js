@@ -41,7 +41,7 @@ const LoginForm = () => {
           value={loginData.Password}
           onChange={(e) => setLoginData({ ...loginData, Password: e.target.value })}
         />
-        <Button type="submit"><Icon>arrow_forward</Icon></Button>
+        <Button type="submit" onClick={(e) => submitHandler(e)}><Icon>arrow_forward</Icon></Button>
         {loading && <Loader/>}
     </Paper>
   );
