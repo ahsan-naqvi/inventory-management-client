@@ -14,7 +14,7 @@ export const Button = styled.button.attrs({
     'data-layout': 'row',
     'data-layout-align': 'center center'
 })`
-    width: 'auto'};
+    width: auto;
     border-radius: 4px;
     padding: 4px;
     background-color: transparent;

@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Paper, Input, Button, Icon, ButtonLabel } from './Styled';
 import { uploadWarehouseProductCSV } from '../../actions/Product';
+import Loader from '../Loader';
 
 const WarehouseProductForm = (props) => {
   const [CSVFile, setCSVFile] = useState();
   const [csvArray, setcsvArray] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const processCSV = (str, delim=',') => {
@@ -24,8 +26,18 @@ const WarehouseProductForm = (props) => {
     setcsvArray(newArray);
   }
 
+  
+  useEffect(() => {
+    if(csvArray.length > 0){        
+      dispatch(uploadWarehouseProductCSV(csvArray));
+    }
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+},[csvArray]);
+  
   const onSubmit = () => {
-    
+    setLoading(true);
     const file = CSVFile;
     const reader = new FileReader();
 
@@ -36,7 +48,6 @@ const WarehouseProductForm = (props) => {
 
     reader.readAsText(file);
 
-    dispatch(uploadWarehouseProductCSV(csvArray));
     // clear();
   };
 
@@ -50,6 +61,7 @@ const WarehouseProductForm = (props) => {
           onChange={(e) => setCSVFile(e.target.files[0])} 
           fullWidth
         />
+        {loading && <Loader />}
         <Button
           small
           onClick={(e) => {
@@ -57,6 +69,7 @@ const WarehouseProductForm = (props) => {
             if(CSVFile) 
               { onSubmit(e); }
           }}
+          disabled={CSVFile ? false : true}
         >
           <div data-layout="row" data-layout-align="center center">
           <Icon>file_upload</Icon>

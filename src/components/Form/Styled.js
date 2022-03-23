@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Colors from '../../Theme/Colors';
 
 
-export const Paper = styled.form`
+export const Paper = styled.div`
     ${(props) => props.auto ? `
         padding: 10px;
         margin: 10px;
@@ -64,6 +64,7 @@ export const Button = styled.button.attrs({
     border-radius: 4px;
     cursor: pointer;
     transition: all ease 0.3s;
+    cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
     &:focus {
         outline: none;
     }
