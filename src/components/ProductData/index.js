@@ -25,8 +25,10 @@ const ProductData = () => {
     // const orderDirection = useSelector((state) => state.ColumnDirection; //useSelector((state) => sortByField.ColumnDirection);
     // console.log(orderDirection)
 
-    const ProductList = useSelector((state) => state.ProductList);
-    // console.log('state: ',useSelector((state) => state));
+    const ProductList = useSelector((state) => state.state.ProductList);
+    const TotalRecords = useSelector((state) => state.state.TotalRecords);
+
+     console.log('state: ', ProductList, 'das: ', TotalRecords);
 
     const sortProductList = (columnName) => {
         setsortByColumnName(columnName);
