@@ -83,3 +83,26 @@ export const PaginationHolder = styled.div.attrs({
 })`
 
 `;
+
+export const PagesLabel = styled.div`
+    color: ${Colors.white};
+`;
+
+export const NoDataHolder = styled.div.attrs({
+    'data-layout': 'row',
+    'data-layout-align': 'center center',
+})`
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 4px;
+    overflow: hidden;
+    min-height: 500px;
+    width: 100%;
+    text-align: center;
+    background: ${Colors.white};
+    font-size:24px;
+    i {
+        margin-right: 20px;
+    }
+`;
