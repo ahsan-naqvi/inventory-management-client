@@ -13,7 +13,6 @@ export default (state = initialState, action) => {
         _TotalRecords = action.payload.TotalRecord;
         console.log('data: ', data)
         return {
-          ...state,
           ProductList: data,
           TotalRecords: _TotalRecords
         };
