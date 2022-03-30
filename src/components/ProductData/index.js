@@ -5,8 +5,8 @@ import Loader from "../Loader";
 import { TableHolder, TableHeader, TableBody, Row, Column, Button, Icon, ButtonLabel, PaginationHolder, PagesLabel, NoDataHolder } from './Styled';
 
 const header = [
-    { name: 'Product Name', key: 'Name', type: 'string' },
     { name: 'Barcode', key: 'Barcode', type: 'string' },
+    { name: 'Product Name', key: 'Name', type: 'string' },
     { name: 'Store Quantity', key: 'StoreQty', type: 'number' },
     { name: 'Warehouse Quantity', key: 'WarehouseQty', type: 'number' },
     { name: 'Total Quantity', key: 'TotalQty', type: 'number' },
@@ -25,7 +25,7 @@ const ProductData = () => {
 
     const [Pagination, setPagination] = useState({ size: 10, page: 1 });
     const [ColumnDirection, setColumnDirection] = useState('ASC');
-    const [sortByColumnName, setsortByColumnName] = useState('');
+    const [sortByColumnName, setsortByColumnName] = useState('Barcode');
     const [loading, setLoading] = useState(false);
 
     const ProductList = useSelector((state) => state.state.ProductList);
@@ -47,6 +47,10 @@ const ProductData = () => {
     }, [Pagination]);
 
     const btnPrevPageClickHandler = () => {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+        }, 1000);
         setPagination({
             size: 10,
             page: Pagination.page > 1 ? Pagination.page - 1 : Pagination.page
@@ -54,6 +58,10 @@ const ProductData = () => {
     }
 
     const btnNextPageClickHandler = () => {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+        }, 1000);
         setPagination({
             size: 10,
             page: Pagination.page >= 1 ? Pagination.page + 1 : Pagination.page
@@ -63,8 +71,8 @@ const ProductData = () => {
     const jsxProductList = (ProductList.length > 0) && ProductList.map(Product => {
         return (
             <Row key={Product._id}>
+                <Column left>{Product.BarCode}</Column>
                 <Column left>{Product.Name}</Column>
-                <Column>{Product.BarCode}</Column>
                 <Column>{Product.StoreQty}</Column>
                 <Column>{Product.WarehouseQty}</Column>
                 <Column>{Product.TotalQty}</Column>
@@ -96,7 +104,7 @@ const ProductData = () => {
                     {jsxProductList}
                 </TableBody>
             </TableHolder> :
-            <NoDataHolder key="noData"><Icon>error_outline</Icon> No Data Found</NoDataHolder>,
+            TotalRecords == 0 && <NoDataHolder key="noData"><Icon>error_outline</Icon> No Data Found</NoDataHolder>,
             TotalRecords > 0 && 
             <PaginationHolder key="pagination">
                 <Button id="btnPrevPage" type="button" onClick={btnPrevPageClickHandler} disabled={Pagination.page === 1}>
