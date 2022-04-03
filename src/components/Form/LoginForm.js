@@ -22,9 +22,10 @@ const LoginForm = () => {
   };
 
   return (
-    <Paper autoComplete="off" onSubmit={submitHandler} data-layout="column" data-layout-align="center center">
+    <Paper onSubmit={submitHandler} data-layout="column" data-layout-align="center center">
         <Label>LOGIN</Label>
         <Input
+          autoComplete="off"
           name="name"
           variant="outlined"
           placeholder="Username"
@@ -33,6 +34,7 @@ const LoginForm = () => {
           onChange={(e) => setLoginData({ ...loginData, Username: e.target.value })}
         />
         <Input
+          autoComplete="off"
           name="password"
           variant="outlined"
           placeholder="Password"

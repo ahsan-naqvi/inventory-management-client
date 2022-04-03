@@ -29,6 +29,10 @@ export const Column = styled.td`
     width: 15%;
 `;
 
+export const Label = styled.span`
+    font-weight: bold;
+`;
+
 export const Button = styled.button.attrs({
     'data-layout': 'row',
     'data-layout-align': 'center center'

@@ -16,8 +16,8 @@ const Search = () => {
 
 
     return (
-        <Paper autoComplete="off" id="divSearch" data-layout="row" data-layout-align="center center" data-flex="100" auto>
-            <Input disabled={TotalRecords === 0} fullWidth id="txtSearch" type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} placeholder="Search with Barcode" />
+        <Paper id="divSearch" data-layout="row" data-layout-align="center center" data-flex="100" auto>
+            <Input autoComplete="off" disabled={TotalRecords === 0} fullWidth id="txtSearch" type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} placeholder="Search with Barcode" />
             <Button disabled={TotalRecords === 0} small onClick={btnSearchClickHandler}>
                 <div data-layout="row" data-layout-align="center center">
                     <Icon>search</Icon>
