@@ -4,9 +4,9 @@ import * as api from '../api/index.js';
 
 //#region Get Actions 
 
-export const FindAllProducts = () => async (dispatch) => {
+export const FindAllProducts = (columnName,sortDirection,columnType) => async (dispatch) => {
   try {
-    const { data } = await api.FindAllProducts();
+    const { data } = await api.FindAllProducts(columnName,sortDirection,columnType);
     console.log("Action: ", data);
 
     dispatch({ type: 'FETCH_ALL', payload: data });
@@ -26,9 +26,9 @@ export const FindProductsByBarcode = (searchText) => async (dispatch) => {
   }
 };
 
-export const SortByColumn = (columnName,sortDirection,columnType,Pagination) => async (dispatch) => {
+export const SortByColumn = (columnName,sortDirection,columnType) => async (dispatch) => {
   try {
-    const { data } = await api.SortByColumn(columnName,sortDirection,columnType,Pagination);
+    const { data } = await api.SortByColumn(columnName,sortDirection,columnType);
     console.log("Sort Action: ", data);
 
     dispatch({ type: 'SORT_BY_COLUMN', payload: data });
@@ -37,9 +37,9 @@ export const SortByColumn = (columnName,sortDirection,columnType,Pagination) => 
   }
 };
 
-export const ChangePage = (Pagination) => async (dispatch) => {
+export const ChangePage = (Pagination,columnName,sortDirection,columnType) => async (dispatch) => {
   try {
-    const { data } = await api.ChangePage(Pagination);
+    const { data } = await api.ChangePage(Pagination,columnName,sortDirection,columnType);
     console.log("Pagination Action: ", data);
 
     dispatch({ type: 'FETCH_BY_PAGINATION', payload: data });
@@ -57,6 +57,7 @@ export const uploadWarehouseProductCSV = (ProductObject) => async (dispatch) => 
     const { data } = await api.uploadWarehouseProductCSV(ProductObject);
 
     dispatch({ type: 'UPLOAD_WAREHOUSE_CSV', payload: data });
+    window.location.reload();
   } catch (error) {
     console.log(error.message);
   }
@@ -67,6 +68,7 @@ export const uploadStoreProductCSV = (ProductObject) => async (dispatch) => {
     const { data } = await api.uploadStoreProductCSV(ProductObject);
 
     dispatch({ type: 'UPLOAD_STORE_CSV', payload: data });
+    window.location.reload();
   } catch (error) {
     console.log(error.message);
   }

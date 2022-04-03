@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { FindAllProducts, SortByColumn, ChangePage } from '../../actions/Product';
 import Loader from "../Loader";
@@ -6,7 +6,7 @@ import { TableHolder, TableHeader, TableBody, Row, Column, Button, Icon, ButtonL
 
 const header = [
     { name: 'Product Name', key: 'Name', type: 'string' },
-    { name: 'Barcode', key: 'Barcode', type: 'string' },
+    { name: 'Barcode', key: 'Barcode', type: 'number' },
     { name: 'Store Quantity', key: 'StoreQty', type: 'number' },
     { name: 'Warehouse Quantity', key: 'WarehouseQty', type: 'number' },
     { name: 'Total Quantity', key: 'TotalQty', type: 'number' },
@@ -14,35 +14,44 @@ const header = [
 ]
 
 const ProductData = () => {
+
+    const [Pagination, setPagination] = useState({ size: 10, page: 1 });
+    const [ColumnDirection, setColumnDirection] = useState('ASC');
+    const [sortByColumnName, setsortByColumnName] = useState(header.find(x => x.key === 'Barcode').name);
+    const [loading, setLoading] = useState(false);
+
     const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(FindAllProducts());
+    useEffect(async () => {
+        
+        dispatch(FindAllProducts('Barcode', 'ASC', 'number'));
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
         }, 1000);
     }, []);
 
-    const [Pagination, setPagination] = useState({ size: 10, page: 1 });
-    const [ColumnDirection, setColumnDirection] = useState('ASC');
-    const [sortByColumnName, setsortByColumnName] = useState('');
-    const [loading, setLoading] = useState(false);
 
     const ProductList = useSelector((state) => state.state.ProductList);
     const TotalRecords = useSelector((state) => state.state.TotalRecords);
 
     const sortProductList = (columnName) => {
-        setsortByColumnName(columnName);
-        let sortDirection = ColumnDirection === 'ASC' ? 'DESC' : 'ASC';
-        let columnType = header.find(x => x.key === columnName).type;
+        setsortByColumnName(columnName); 
+        let { sortDirection, columnType } = _GetSortDirectionAndColumnType(ColumnDirection, columnName);
         dispatch(SortByColumn(columnName, sortDirection, columnType));
         setColumnDirection(sortDirection);
-
+        setPagination({...Pagination,
+            page: 1
+        });
     }
 
+    //Change Page Render Method
     useEffect(() => {
-        if (ProductList.length > 0) {
-            dispatch(ChangePage(Pagination));
+        if (ProductList.length > 0) {    
+            // if(ColumnDirection !== undefined && sortByColumnName !== undefined){        
+                let { columnType } = _GetSortDirectionAndColumnType(ColumnDirection, sortByColumnName);
+            
+                dispatch(ChangePage(Pagination,sortByColumnName, ColumnDirection, columnType));
+            // }
         }
     }, [Pagination]);
 
@@ -113,3 +122,9 @@ const ProductData = () => {
 };
 
 export default ProductData;
+
+const _GetSortDirectionAndColumnType = (ColumnDirection, columnName) => {
+    let sortDirection = ColumnDirection === 'ASC' ? 'DESC' : 'ASC';
+    let columnType = header.find(x => x.key === columnName).type;
+    return { sortDirection, columnType };
+}

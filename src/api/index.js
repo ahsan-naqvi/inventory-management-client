@@ -12,9 +12,9 @@ export const ProcessLogin = (userObj) => axios.post(login_url, userObj);
 
 
 const product_url = 'http://localhost:5000/product';
-export const FindAllProducts = () => axios.get(product_url);
+export const FindAllProducts = (columnName,sortDirection,columnType) => axios.get(product_url+'?columnName='+columnName+'&sortDirection='+sortDirection+'&columnType='+columnType);
 export const FindProductsByBarcode = (searchText) => axios.get(product_url+'/FindProductsByBarcode?searchText='+searchText);
-export const SortByColumn = (columnName,sortDirection,columnType,Pagination) => axios.get(product_url+'/SortByColumn?columnName='+columnName+'&sortDirection='+sortDirection+'&columnType='+columnType+'&'+ new URLSearchParams(Pagination).toString());
-export const ChangePage = (Pagination) => axios.get(product_url+'/ChangePage?'+ new URLSearchParams(Pagination).toString());
+export const SortByColumn = (columnName,sortDirection,columnType) => axios.get(product_url+'/SortByColumn?columnName='+columnName+'&sortDirection='+sortDirection+'&columnType='+columnType);
+export const ChangePage = (Pagination,columnName,sortDirection,columnType) => axios.get(product_url+'/ChangePage?'+ new URLSearchParams(Pagination).toString()+'&columnName='+columnName+'&sortDirection='+sortDirection+'&columnType='+columnType);
 export const uploadWarehouseProductCSV = (warehouseProductObj) => axios.post(product_url + '/InsertAndUpdateWarehouseProducts', warehouseProductObj);
 export const uploadStoreProductCSV = (storeProductObj) => axios.post(product_url + '/InsertAndUpdateStoreProducts', storeProductObj);
